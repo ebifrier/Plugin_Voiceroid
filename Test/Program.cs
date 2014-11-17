@@ -9,12 +9,12 @@ namespace Test
         [STAThread]
         static void Main(string[] args)
         {
-            Voiceroid voiceroid = VoiceroidFactory.CreateZunko();
+            Voiceroid voiceroid = VoiceroidFactory.CreateAkane();
 
             string text = "えびちゃんわーい";
             if (voiceroid.PrepareTalk())
             {
-                for (int i = 0; i < 100; ++i)
+                for (int i = 0; i < 1; ++i)
                 {
                     //plugin.Talk("abcdﾊﾝｶｸ！！");
                     voiceroid.Talk(text);

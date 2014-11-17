@@ -55,6 +55,8 @@ namespace Plugin_Voiceroid
             VoiceroidFactory.CreateTomoe(),
             VoiceroidFactory.CreateYukari(),
             VoiceroidFactory.CreateZunko(),
+            VoiceroidFactory.CreateAkane(),
+            VoiceroidFactory.CreateAoi(),
         };
 
         private IntPtr windowHandle = IntPtr.Zero;
@@ -105,21 +107,25 @@ namespace Plugin_Voiceroid
         /// </summary>
         private bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam)
         {
-            if (this.handleCount == Info.PlayButtonNo)
+            if (this.handleCount == Info.PlayButtonNo ||
+                this.handleCount == Info.PlayButtonNo + 1)
             {
                 if (ValidateClassName(hWnd, Info.PlayButtonCaption, Info.ButtonClassName))
                 {
                     this.playButtonHandle = hWnd;
                 }
             }
-            else if (this.handleCount == Info.StopButtonNo)
+            
+            if (this.handleCount == Info.StopButtonNo ||
+                this.handleCount == Info.StopButtonNo + 1)
             {
                 if (ValidateClassName(hWnd, Info.StopButtonCaption, Info.ButtonClassName))
                 {
                     this.stopButtonHandle = hWnd;
                 }
             }
-            else if (this.handleCount == Info.EditBoxNo)
+            
+            if (this.handleCount == Info.EditBoxNo)
             {
                 if (ValidateClassName(hWnd, null, Info.EditBoxClassName))
                 {

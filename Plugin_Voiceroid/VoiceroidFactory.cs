@@ -33,6 +33,14 @@ namespace Plugin_Voiceroid
         /// 東北ずん子
         /// </summary>
         Zunko,
+        /// <summary>
+        /// 琴葉茜
+        /// </summary>
+        Akane,
+        /// <summary>
+        /// 琴葉葵
+        /// </summary>
+        Aoi,
     }
 
     /// <summary>
@@ -110,6 +118,38 @@ namespace Plugin_Voiceroid
                     10, " 再生", 11, " 停止",
                     "WindowsForms10.BUTTON.app.0.17ad52b",
                     8, "WindowsForms10.RichEdit20W.app.0.17ad52b"));
+        }
+
+        /// <summary>
+        /// 琴葉茜を作成します。
+        /// </summary>
+        public static Voiceroid CreateAkane()
+        {
+            return new Voiceroid(
+                new VoiceroidInfo(
+                    VoiceroidType.Akane,
+                    "琴葉茜",
+                    @"\b(akane|茜|あかね)\b[)）]\s*",
+                    "VOICEROID＋ 琴葉茜",
+                    11, " 再生", 12, " 停止",
+                    "WindowsForms10.BUTTON.app.0.33c0d9d",
+                    9, "WindowsForms10.RichEdit20W.app.0.33c0d9d"));
+        }
+
+        /// <summary>
+        /// 琴葉葵を作成します。
+        /// </summary>
+        public static Voiceroid CreateAoi()
+        {
+            return new Voiceroid(
+                new VoiceroidInfo(
+                    VoiceroidType.Aoi,
+                    "琴葉葵",
+                    @"\b(aoi|葵|あおい)\b[)）]\s*",
+                    "VOICEROID＋ 琴葉葵",
+                    11, " 再生", 12, " 停止",
+                    "WindowsForms10.BUTTON.app.0.33c0d9d",
+                    9, "WindowsForms10.RichEdit20W.app.0.33c0d9d"));
         }
     }
 }
