@@ -74,6 +74,15 @@ namespace Plugin_Voiceroid
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public bool UseNextNo
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// 再生ボタンのコントロール番号(何番目にあるか)を取得します。
         /// </summary>
         public int PlayButtonNo
@@ -116,7 +125,7 @@ namespace Plugin_Voiceroid
                              string regex, string windowCaption,
                              int playButtonNo, string playButtonCaption,
                              int stopButtonNo, string stopButtonCaption,
-                             string buttonClassName,
+                             bool useNextNo, string buttonClassName,
                              int editBoxNo, string editBoxClassName)
         {
             Type = type;
@@ -132,6 +141,7 @@ namespace Plugin_Voiceroid
             PlayButtonNo = playButtonNo;
             StopButtonCaption = stopButtonCaption;
             StopButtonNo = stopButtonNo;
+            UseNextNo = useNextNo;
         }
 
         /// <summary>
@@ -142,7 +152,7 @@ namespace Plugin_Voiceroid
                              int playButtonNo, int stopButtonNo)
             : this(type, name, regex, windowCaption,
                    playButtonNo, null, stopButtonNo, null,
-                   "Button", -1, null)
+                   false, "Button", -1, null)
         {
         }
     }

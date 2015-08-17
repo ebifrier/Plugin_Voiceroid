@@ -9,7 +9,7 @@ namespace Test
         [STAThread]
         static void Main(string[] args)
         {
-            var voiceroid = VoiceroidFactory.CreateAi();
+            var voiceroid = VoiceroidFactory.CreateAoi();
             var voiceroid2 = VoiceroidFactory.CreateShouta();
 
             string text = "えびちゃんわーい";

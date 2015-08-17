@@ -115,7 +115,7 @@ namespace Plugin_Voiceroid
                     "東北ずん子",
                     @"\b(zu(n)?nko|ずん子|ずんこ)\b[)）]\s*",
                     "VOICEROID＋ 東北ずん子",
-                    10, " 再生", 11, " 停止",
+                    10, " 再生", 11, " 停止", false,
                     "WindowsForms10.BUTTON.app.0.17ad52b",
                     8, "WindowsForms10.RichEdit20W.app.0.17ad52b"));
         }
@@ -131,7 +131,7 @@ namespace Plugin_Voiceroid
                     "琴葉茜",
                     @"\b(akane|茜|あかね)\b[)）]\s*",
                     "VOICEROID＋ 琴葉茜",
-                    12, " 再生", 13, " 停止",
+                    11, " 再生", 12, " 停止", true,
                     "WindowsForms10.BUTTON.app.0.33c0d9d",
                     9, "WindowsForms10.RichEdit20W.app.0.33c0d9d"));
         }
@@ -147,7 +147,7 @@ namespace Plugin_Voiceroid
                     "琴葉葵",
                     @"\b(aoi|葵|あおい)\b[)）]\s*",
                     "VOICEROID＋ 琴葉葵",
-                    12, " 再生", 13, " 停止",
+                    11, " 再生", 12, " 停止", true,
                     "WindowsForms10.BUTTON.app.0.33c0d9d",
                     9, "WindowsForms10.RichEdit20W.app.0.33c0d9d"));
         }

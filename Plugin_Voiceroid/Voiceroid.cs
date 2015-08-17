@@ -107,7 +107,8 @@ namespace Plugin_Voiceroid
         /// </summary>
         private bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam)
         {
-            if (this.handleCount == Info.PlayButtonNo)
+            if (this.handleCount == Info.PlayButtonNo ||
+                (Info.UseNextNo && this.handleCount == Info.PlayButtonNo + 1))
             {
                 if (ValidateClassName(hWnd, Info.PlayButtonCaption, Info.ButtonClassName))
                 {
@@ -115,7 +116,8 @@ namespace Plugin_Voiceroid
                 }
             }
             
-            if (this.handleCount == Info.StopButtonNo)
+            if (this.handleCount == Info.StopButtonNo ||
+                (Info.UseNextNo && this.handleCount == Info.StopButtonNo + 1))
             {
                 if (ValidateClassName(hWnd, Info.StopButtonCaption, Info.ButtonClassName))
                 {
