@@ -76,7 +76,7 @@ namespace Plugin_Voiceroid
                     10, 9));
         }
 
-        /// <summary>
+        /*/// <summary>
         /// 民安ともえを作成します。
         /// </summary>
         public static Voiceroid CreateTomoe()
@@ -88,9 +88,24 @@ namespace Plugin_Voiceroid
                     @"\b(tomoe|ともえ|トモエ)\b[)）]\s*",
                     "VOICEROID＋ 民安ともえ",
                     9, 8));
+        }*/
+        /// <summary>
+        /// 民安ともえを作成します。
+        /// </summary>
+        public static Voiceroid CreateTomoe()
+        {
+            return new Voiceroid(
+                new VoiceroidInfo(
+                    VoiceroidType.Tomoe,
+                    "民安ともえEX",
+                    @"\b(tomoe|ともえ|トモエ)\b[)）]\s*",
+                    "VOICEROID＋ 民安ともえ EX",
+                    13, " 再生", 14, " 停止", false,
+                    "WindowsForms10.BUTTON.app.0.33c0d9d",
+                    9, "WindowsForms10.RichEdit20W.app.0.33c0d9d"));
         }
 
-        /// <summary>
+        /*/// <summary>
         /// 結月ゆかりを作成します。
         /// </summary>
         public static Voiceroid CreateYukari()
@@ -102,6 +117,21 @@ namespace Plugin_Voiceroid
                     @"\b(yukari|ゆかり|ユカリ)\b[)）]\s*",
                     "VOICEROID＋ 結月ゆかり",
                     9, 8));
+        }*/
+        /// <summary>
+        /// 結月ゆかりを作成します。
+        /// </summary>
+        public static Voiceroid CreateYukari()
+        {
+            return new Voiceroid(
+                new VoiceroidInfo(
+                    VoiceroidType.Yukari,
+                    "結月ゆかりEX",
+                    @"\b(yukari|ゆかり|ユカリ)\b[)）]\s*",
+                    "VOICEROID＋ 結月ゆかり EX",
+                    13, " 再生", 14, " 停止", false,
+                    "WindowsForms10.BUTTON.app.0.33c0d9d",
+                    9, "WindowsForms10.RichEdit20W.app.0.33c0d9d"));
         }
 
         /// <summary>

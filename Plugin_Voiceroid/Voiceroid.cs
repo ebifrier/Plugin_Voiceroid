@@ -14,20 +14,53 @@ namespace Plugin_Voiceroid
     {
         #region PInvoke
         private const uint WM_NULL = 0x0000;
+        private const uint WM_SETTEXT = 0x000c;
+        private const uint WM_GETTEXT = 0x000d;
+        private const uint WM_GETTEXTLENGTH = 0x000e;
         private const uint WM_COMMAND = 0x0111;
         private const uint BM_CLICK = 0x00f5;
+        private const uint MIIM_STRING = 0x00000040;
+        private const uint MFT_STRING = 0x00000000;
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        public struct MENUITEMINFO
+        {
+            /*public MENUITEMINFO()
+            {
+                cbSize = Marshal.SizeOf(typeof(MENUITEMINFO));
+            }*/
+
+            public int cbSize;
+            public uint fMask;
+            public uint fType;
+            public uint fState;
+            public uint wID;
+            public IntPtr hSubMenu;
+            public IntPtr hbmpChecked;
+            public IntPtr hbmpUnchecked;
+            public IntPtr dwItemData;
+            public string dwTypeData;
+            public uint cch;
+            public IntPtr hbmpItem;
+        }
 
         [return: MarshalAs(UnmanagedType.Bool)]
         delegate bool Win32Callback(IntPtr hwnd, IntPtr lParam);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        static extern int GetWindowTextLength(IntPtr hWnd);
         [DllImport("user32.dll")]
         static extern IntPtr GetMenu(IntPtr hWnd);
         [DllImport("user32.dll")]
         static extern uint GetMenuItemID(IntPtr hMenu, int nPos);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        static extern bool GetMenuItemInfo(IntPtr hMenu, int uItem, bool fByPosition, ref MENUITEMINFO lpmii);
         [DllImport("user32.dll")]
         static extern IntPtr GetSubMenu(IntPtr hMenu, int nPos);
+        [DllImport("user32.dll")]
+        static extern int GetMenuItemCount(IntPtr hMenu);
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         static extern IntPtr FindWindowEx(IntPtr hWnd, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
@@ -35,14 +68,25 @@ namespace Plugin_Voiceroid
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool EnumChildWindows(IntPtr parentHandle, Win32Callback callback, IntPtr lParam);
-        [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("user32.dll")]
-        static extern bool SendMessage(IntPtr hWnd, uint Msg, Int32 wParam, Int32 lParam);
+        static extern int SendMessage(IntPtr hWnd, uint Msg, Int32 wParam, Int32 lParam);
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, string lParam);
-        [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("user32.dll")]
-        static extern bool PostMessage(IntPtr hWnd, uint Msg, Int32 wParam, Int32 lParam);
+        static extern IntPtr PostMessage(IntPtr hWnd, uint Msg, Int32 wParam, Int32 lParam);
+
+        static string GetMenuText(IntPtr hMenu, int fPos)
+        {
+            MENUITEMINFO mif = new MENUITEMINFO();
+            mif.cbSize = Marshal.SizeOf(typeof(MENUITEMINFO));
+            mif.fMask = MIIM_STRING;
+            mif.fType = MFT_STRING;
+            mif.cch = 256;
+            mif.dwTypeData = new string(' ', (int)mif.cch);
+
+            GetMenuItemInfo(hMenu, fPos, true, ref mif);
+            return mif.dwTypeData;
+        }
         #endregion
 
         /// <summary>
@@ -74,6 +118,23 @@ namespace Plugin_Voiceroid
         {
             get;
             private set;
+        }
+
+        private void DebugControl(IntPtr hWnd)
+        {
+            StringBuilder sbStr = new StringBuilder(64);
+            GetWindowText(hWnd, sbStr, sbStr.Capacity);
+            var caption = sbStr.ToString();
+
+            StringBuilder sbClassName = new StringBuilder(256);
+            if (GetClassName(hWnd, sbClassName, sbClassName.Capacity) == 0)
+            {
+                return;
+            }
+            var className = sbClassName.ToString();
+
+            Console.WriteLine(caption);
+            Console.WriteLine(className);
         }
 
         /// <summary>
@@ -209,11 +270,15 @@ namespace Plugin_Voiceroid
             {
                 // 戻ると貼り付けのメニューIDを検索します。
                 IntPtr hMenu = GetMenu(windowHandle);
-                IntPtr hSubMenu = GetSubMenu(hMenu, 1);
+                IntPtr hSubMenu = GetSubMenu(hMenu, 1); // 左から二番目のサブメニューを取得
 
                 // メニューアイテムの位置が変わったら要修正。
-                this.undoMenuId = GetMenuItemID(hSubMenu, 0);
-                this.pasteMenuId = GetMenuItemID(hSubMenu, 5);
+                //Console.WriteLine(GetMenuItemCount(GetSubMenu(hMenu, 0)));
+                //Console.WriteLine(GetMenuItemCount(GetSubMenu(hMenu, 2)));
+                //Console.WriteLine(GetMenuText(hSubMenu, 5));
+
+                this.undoMenuId = GetMenuItemID(hSubMenu, 0);  // 一番上の「元に戻す」
+                this.pasteMenuId = GetMenuItemID(hSubMenu, 5); // ６番目の「貼り付け」
                 if (this.undoMenuId == 0 || this.pasteMenuId == 0)
                 {
                     return false;
@@ -280,7 +345,7 @@ namespace Plugin_Voiceroid
 
                 if (this.textBoxHandle != IntPtr.Zero)
                 {
-                    SendMessage(this.textBoxHandle, 12, IntPtr.Zero, sourceText);
+                    SendMessage(this.textBoxHandle, WM_SETTEXT, IntPtr.Zero, sourceText);
                 }
                 else
                 {

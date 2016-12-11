@@ -9,11 +9,11 @@ namespace Test
         [STAThread]
         static void Main(string[] args)
         {
-            var voiceroid = VoiceroidFactory.CreateAoi();
-            var voiceroid2 = VoiceroidFactory.CreateShouta();
+            //var voiceroid1 = VoiceroidFactory.CreateAoi();
+            var voiceroid = VoiceroidFactory.CreateYukari();
 
             string text = "えびちゃんわーい";
-            voiceroid2.PrepareTalk();
+            //voiceroid2.PrepareTalk();
             if (voiceroid.PrepareTalk())
             {
                 for (int i = 0; i < 10; ++i)
