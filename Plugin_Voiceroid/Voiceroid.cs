@@ -98,6 +98,7 @@ namespace Plugin_Voiceroid
             VoiceroidFactory.CreateShouta(),
             VoiceroidFactory.CreateTomoe(),
             VoiceroidFactory.CreateYukari(),
+            VoiceroidFactory.CreateYukari2(),
             VoiceroidFactory.CreateZunko(),
             VoiceroidFactory.CreateAkane(),
             VoiceroidFactory.CreateAoi(),

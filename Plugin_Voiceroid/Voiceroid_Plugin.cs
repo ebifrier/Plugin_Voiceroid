@@ -126,7 +126,7 @@ namespace Plugin_Voiceroid
                 string sourceText = e.ReplaceWord;
 
                 Voiceroid voiceroid =
-                    CheckVoiceroid(sourceText)
+                    VoiceroidList.DetectVoiceroid(sourceText)
                     ?? (settings != null ? settings.DefaultVoiceroid : null);
 
                 // タグによる読み上げを実行します。
@@ -134,7 +134,7 @@ namespace Plugin_Voiceroid
                 {
                     // すべてのボイスタグを削除します。
                     // 例) "ai) yukari) てすと" などの場合に対応。
-                    sourceText = RemoveVoiceTag(sourceText);
+                    sourceText = VoiceroidList.RemoveVoiceTag(sourceText);
 
                     // 発声に成功した場合は e.Cancel=true となります。
                     if (Talk(voiceroid, sourceText, e))
@@ -169,52 +169,6 @@ namespace Plugin_Voiceroid
             }
 
             return PlayTagRegex.IsMatch(sourceText);
-        }
-
-        /// <summary>
-        /// 複数のボイスタグがある場合に、一番最後にあるボイスロイドを選択します。
-        /// </summary>
-        private Voiceroid CheckVoiceroid(string sourceText)
-        {
-            Voiceroid result = null;
-            int maxIndex = -1;
-
-            // タグによる読み上げを実行します。
-            foreach (Voiceroid voiceroid in Voiceroid.VoiceroidTable)
-            {
-                var index = voiceroid.FindVoiceTag(sourceText);
-                if (index < 0)
-                {
-                    continue;
-                }
-
-                if (!voiceroid.PrepareTalk())
-                {
-                    continue;
-                }
-
-                // より後にあるタグを優先します。
-                if (index > maxIndex)
-                {
-                    maxIndex = index;
-                    result = voiceroid;
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// すべてのボイスタグを削除します。
-        /// </summary>
-        private string RemoveVoiceTag(string sourceText)
-        {
-            foreach (Voiceroid voiceroid in Voiceroid.VoiceroidTable)
-            {
-                sourceText = voiceroid.RemoveVoiceTag(sourceText);
-            }
-
-            return sourceText;
         }
 
         /// <summary>

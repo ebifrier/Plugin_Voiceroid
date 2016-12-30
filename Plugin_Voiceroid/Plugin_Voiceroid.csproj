@@ -62,6 +62,7 @@
     <Compile Include="ClipboardUtil.cs" />
     <Compile Include="SettingFormData.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="VoiceroidList.cs" />
     <Compile Include="Voiceroid.cs" />
     <Compile Include="VoiceroidFactory.cs" />
     <Compile Include="VoiceroidInfo.cs" />
